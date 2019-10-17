@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import styles from './index.css';
 
@@ -9,7 +9,7 @@ class Index extends Component {
         super(props);
         this.state = {
             columns: [],
-            dataSource: [],
+            dataSource: [{}, {}, {}, {}],
             visibleAdd: false, // 是否显示批量添加弹窗
             addNumber: 5, // 批量添加个数
         }
@@ -34,6 +34,13 @@ class Index extends Component {
     }
 
     /**
+     * 编辑表列
+     */
+    editTitle(index) {
+        console.log(index);
+    }
+
+    /**
      * 批量添加
      */
     add() {
@@ -44,12 +51,16 @@ class Index extends Component {
         for (let i = 0; i < addNumber; i++) {
             const name = `标题${len + i + 1}`;
             c.push({
-                title: name,
+                title: () => (<span>{`标题${len + i + 1}`}<Icon type="edit" onClick={() => {this.editTitle(len + i)}}/></span>),
                 dataIndex: name,
             })
+            for(let j = 0; j < d.length; j++) {
+                d[j][name] = `测试数据${j + 1}`;
+            }
         }
         this.setState({
             columns: c,
+            dataSource: d,
             visibleAdd: false
         })
     }
@@ -64,11 +75,14 @@ class Index extends Component {
     }
 
     render() {
-        const { columns } = this.state;
+        const { columns, dataSource } = this.state;
         return (
             <div className={styles.indexWrap}>
                 <Button type="primary" onClick={this.openAdd.bind(this)}>批量添加</Button>
-                <Table columns={columns}></Table>
+                <Table
+                    columns={columns}
+                    dataSource={dataSource}>
+                </Table>
                 <Modal
                     title="批量添加"
                     visible={this.state.visibleAdd}
