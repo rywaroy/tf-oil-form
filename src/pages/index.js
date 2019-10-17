@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import styles from './index.css';
 
@@ -41,6 +41,17 @@ class Index extends Component {
     }
 
     /**
+     * 编辑表头名称
+     */
+    titleInputBlur(e, index) {
+        const c = [...this.state.columns]
+        c[index].titleText = e.target.value
+        this.setState({
+            columns: c
+        })
+    }
+
+    /**
      * 批量添加
      */
     add() {
@@ -51,7 +62,13 @@ class Index extends Component {
         for (let i = 0; i < addNumber; i++) {
             const name = `标题${len + i + 1}`;
             c.push({
-                title: () => (<span>{`标题${len + i + 1}`}<Icon type="edit" onClick={() => {this.editTitle(len + i)}}/></span>),
+                title: () => (
+                    <>
+                        <Input style={{width: '100px'}} defaultValue={`标题${len + i + 1}`} onBlur={(e) => {this.titleInputBlur(e, len + i)}}/>
+                        <Icon type="edit" onClick={() => {this.editTitle(len + i)}}/>
+                    </>
+                ),
+                titleText: name,
                 dataIndex: name,
             })
             for(let j = 0; j < d.length; j++) {
