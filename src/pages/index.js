@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input, Form, Radio } from 'antd';
 import 'antd/dist/antd.css';
+import SetColumn from './components/SetColumn';
 import styles from './index.css';
 
 
@@ -12,6 +13,8 @@ class Index extends Component {
             dataSource: [{}, {}, {}, {}],
             visibleAdd: false, // 是否显示批量添加弹窗
             addNumber: 5, // 批量添加个数
+            visibleSet: false, // 设置列
+            setIndex: null,
         }
     }
 
@@ -37,14 +40,19 @@ class Index extends Component {
      * 编辑表列
      */
     editTitle(index) {
-        console.log(index);
+        this.setState({
+            visibleSet: true,
+            setIndex: index,
+        })
     }
+
 
     /**
      * 编辑表头名称
      */
     titleInputBlur(e, index) {
         const c = [...this.state.columns]
+        c[index].titleText = e.target.value
         c[index].titleText = e.target.value
         this.setState({
             columns: c
@@ -64,8 +72,8 @@ class Index extends Component {
             c.push({
                 title: () => (
                     <>
-                        <Input style={{width: '100px'}} defaultValue={`标题${len + i + 1}`} onBlur={(e) => {this.titleInputBlur(e, len + i)}}/>
-                        <Icon type="edit" onClick={() => {this.editTitle(len + i)}}/>
+                        <Input style={{width: '100px'}} allowClear onBlur={(e) => {this.titleInputBlur(e, len + i)}}/>
+                        <Icon type="edit" onClick={() => {this.editTitle(len + i)}} style={{marginLeft: '5px'}}/>
                     </>
                 ),
                 titleText: name,
@@ -92,7 +100,8 @@ class Index extends Component {
     }
 
     render() {
-        const { columns, dataSource } = this.state;
+        const { columns, dataSource, visibleSet } = this.state;
+
         return (
             <div className={styles.indexWrap}>
                 <Button type="primary" onClick={this.openAdd.bind(this)}>批量添加</Button>
@@ -107,6 +116,7 @@ class Index extends Component {
                     onCancel={this.closeAdd.bind(this)}>
                         <InputNumber style={{width: '400px'}} min={1} defaultValue={5} onChange={this.addNumberChange.bind(this)}/>
                 </Modal>
+                <SetColumn visibleSet={visibleSet}></SetColumn>
             </div>
         );
     }
