@@ -13,7 +13,8 @@ class Index extends Component {
             dataSource: [{}, {}, {}, {}],
             visibleAdd: false, // 是否显示批量添加弹窗
             addNumber: 5, // 批量添加个数
-            visibleSet: false, // 设置列
+            visibleSetColumn: false, // 设置列
+            setColumnKey: Math.random(),
             setIndex: null,
         }
     }
@@ -41,8 +42,9 @@ class Index extends Component {
      */
     editTitle(index) {
         this.setState({
-            visibleSet: true,
+            visibleSetColumn: true,
             setIndex: index,
+            setColumnKey: Math.random()
         })
     }
 
@@ -63,8 +65,26 @@ class Index extends Component {
      * 设置表列
      */
     setColumn = values => {
-        console.log(values);
         this.closeSetColumn();
+        const { setIndex, columns } = this.state;
+        const c = [...columns];
+        // 解析对象
+        const { width, align, ellipsis, className } = values;
+        if (width) {
+            c[setIndex].width = width;
+        } else if (c[setIndex].width) {
+            delete c[setIndex].width;
+        }
+        if (align) c[setIndex].align = align;
+        if (ellipsis) c[setIndex].ellipsis = ellipsis;
+        if (className) {
+            c[setIndex].className = className;
+        } else if (c[setIndex].className) {
+            delete c[setIndex].className;
+        }
+        this.setState({
+            columns: c
+        })
     }
 
     /**
@@ -72,8 +92,8 @@ class Index extends Component {
      */
     closeSetColumn = () => {
         this.setState({
-            visibleSet: false
-        })
+            visibleSetColumn: false
+        });
     }
 
     /**
@@ -117,7 +137,7 @@ class Index extends Component {
     }
 
     render() {
-        const { columns, dataSource, visibleSet } = this.state;
+        const { columns, dataSource, visibleSetColumn, setColumnKey } = this.state;
 
         return (
             <div className={styles.indexWrap}>
@@ -134,7 +154,8 @@ class Index extends Component {
                         <InputNumber style={{width: '400px'}} min={1} defaultValue={5} onChange={this.addNumberChange.bind(this)}/>
                 </Modal>
                 <SetColumn 
-                    visibleSet={visibleSet}
+                    visibleSetColumn={visibleSetColumn}
+                    setColumnKey={setColumnKey}
                     onOk={this.setColumn}
                     onCancel={this.closeSetColumn} />
             </div>

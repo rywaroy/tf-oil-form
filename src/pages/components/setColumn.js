@@ -41,13 +41,14 @@ class SetColumn extends Component {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
         };
-        
+        const { visibleSetColumn, setColumnKey } = this.props;
         const { getFieldDecorator } = this.props.form;
 
         return (
             <Modal
+                key={setColumnKey}
                 title="设置"
-                visible={this.props.visibleSet}
+                visible={visibleSetColumn}
                 onOk={this.setLine.bind(this)}
                 onCancel={this.closeSetLine.bind(this)}>
                     <Form  {...formItemLayout}>
