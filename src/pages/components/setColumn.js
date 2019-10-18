@@ -24,7 +24,7 @@ class SetColumn extends Component {
     setLine() {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values);
+                this.props.onOk(values);
             }
         });
     }
@@ -33,9 +33,7 @@ class SetColumn extends Component {
      * 关闭配置列弹窗
      */
     closeSetLine() {
-        this.setState({
-            visibleSet: false,
-        })
+        this.props.onCancel();
     }
 
     render() {

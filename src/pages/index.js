@@ -60,6 +60,23 @@ class Index extends Component {
     }
 
     /**
+     * 设置表列
+     */
+    setColumn = values => {
+        console.log(values);
+        this.closeSetColumn();
+    }
+
+    /**
+     * 关闭设置表列弹窗
+     */
+    closeSetColumn = () => {
+        this.setState({
+            visibleSet: false
+        })
+    }
+
+    /**
      * 批量添加
      */
     add() {
@@ -116,7 +133,10 @@ class Index extends Component {
                     onCancel={this.closeAdd.bind(this)}>
                         <InputNumber style={{width: '400px'}} min={1} defaultValue={5} onChange={this.addNumberChange.bind(this)}/>
                 </Modal>
-                <SetColumn visibleSet={visibleSet}></SetColumn>
+                <SetColumn 
+                    visibleSet={visibleSet}
+                    onOk={this.setColumn}
+                    onCancel={this.closeSetColumn} />
             </div>
         );
     }
