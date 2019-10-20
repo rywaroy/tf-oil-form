@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input, Form, Radio } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import SetColumn from './components/SetColumn';
 import styles from './index.css';
@@ -10,12 +10,13 @@ class Index extends Component {
         super(props);
         this.state = {
             columns: [],
-            dataSource: [{}, {}, {}, {}],
+            dataSource: [{}, {}],
             visibleAdd: false, // 是否显示批量添加弹窗
             addNumber: 5, // 批量添加个数
             visibleSetColumn: false, // 设置列
             setColumnKey: Math.random(),
             setIndex: null,
+            setColumnObj: {}
         }
     }
 
@@ -44,7 +45,8 @@ class Index extends Component {
         this.setState({
             visibleSetColumn: true,
             setIndex: index,
-            setColumnKey: Math.random()
+            setColumnKey: Math.random(),
+            setColumnObj: {...this.state.columns[index]}
         })
     }
 
@@ -57,7 +59,7 @@ class Index extends Component {
         c[index].titleText = e.target.value
         c[index].titleText = e.target.value
         this.setState({
-            columns: c
+            columns: c,
         })
     }
 
@@ -76,7 +78,11 @@ class Index extends Component {
             delete c[setIndex].width;
         }
         if (align) c[setIndex].align = align;
-        if (ellipsis) c[setIndex].ellipsis = ellipsis;
+        if (ellipsis === undefined ) {
+            delete c[setIndex].ellipsis;
+        } else {
+            c[setIndex].ellipsis = ellipsis
+        }
         if (className) {
             c[setIndex].className = className;
         } else if (c[setIndex].className) {
@@ -137,7 +143,7 @@ class Index extends Component {
     }
 
     render() {
-        const { columns, dataSource, visibleSetColumn, setColumnKey } = this.state;
+        const { columns, dataSource, visibleSetColumn, setColumnKey, setColumnObj } = this.state;
 
         return (
             <div className={styles.indexWrap}>
@@ -155,7 +161,8 @@ class Index extends Component {
                 </Modal>
                 <SetColumn 
                     visibleSetColumn={visibleSetColumn}
-                    setColumnKey={setColumnKey}
+                    key={setColumnKey}
+                    {...setColumnObj}
                     onOk={this.setColumn}
                     onCancel={this.closeSetColumn} />
             </div>
