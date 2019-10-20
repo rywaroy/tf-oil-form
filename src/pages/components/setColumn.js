@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input, Form, Radio } from 'antd';
+import { Modal, InputNumber, Input, Form, Radio } from 'antd';
 
 const alignOptions = [
     { label: 'left', value: 'left' },
@@ -8,15 +8,11 @@ const alignOptions = [
 ]
 
 const ellipsisOptions = [
-    { label: 'false', value: 'false' },
-    { label: 'true', value: 'true' },
+    { label: 'false', value: false },
+    { label: 'true', value: true },
 ]
 
 class SetColumn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {  }
-    }
 
     /**
      * 配置列
@@ -36,17 +32,29 @@ class SetColumn extends Component {
         this.props.onCancel();
     }
 
+    componentDidMount() {
+        const { width, align, ellipsis, className } = this.props;
+        if (width) {
+
+        }
+        this.props.form.setFieldsValue({
+            width: width ? width : undefined,
+            align: align ? align : undefined,
+            ellipsis: ellipsis ? ellipsis : undefined,
+            className: className ? className : undefined,
+        });
+    }
+
     render() {
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 14 },
         };
-        const { visibleSetColumn, setColumnKey } = this.props;
+        const { visibleSetColumn } = this.props;
         const { getFieldDecorator } = this.props.form;
 
         return (
             <Modal
-                key={setColumnKey}
                 title="设置"
                 visible={visibleSetColumn}
                 onOk={this.setLine.bind(this)}
