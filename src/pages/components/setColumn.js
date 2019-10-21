@@ -34,9 +34,6 @@ class SetColumn extends Component {
 
     componentDidMount() {
         const { width, align, ellipsis, className } = this.props;
-        if (width) {
-
-        }
         this.props.form.setFieldsValue({
             width: width ? width : undefined,
             align: align ? align : undefined,
