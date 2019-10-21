@@ -24,7 +24,7 @@ class SetOpt extends Component {
                 if (!res) {
                     return;
                 }
-                values.opt = this.state.opts;
+                values.opts = this.state.opts;
                 this.props.onOk(values);
             }
         });
@@ -91,7 +91,7 @@ class SetOpt extends Component {
                         <div>操作按钮： <Button type="primary" onClick={this.addOpt.bind(this)}>添加</Button></div>
                         {
                             this.state.opts.map((item, index) => (
-                                <div className="set-opt-line">
+                                <div className="set-opt-line" key={index}>
                                     <Input placeholder="操作名称" className="set-opt-input" allowClear onChange={e => this.optInputChange(e, index)}/>
                                     link: &nbsp;&nbsp;&nbsp;&nbsp;
                                     <Radio.Group options={linkOptions} value={item.link} onChange={e => this.optRadioChange(e, index)}/>

@@ -3,6 +3,7 @@ import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import SetColumn from './components/SetColumn';
 import SetOpt from './components/setOpt';
+import { spawn } from 'child_process';
 
 
 class Index extends Component {
@@ -161,7 +162,54 @@ class Index extends Component {
      * 设置操作
      */
     opt(values) {
-        console.log(values);
+        const columns = [...this.state.columns];
+        columns.push({
+            title() {
+                return (
+                    <>
+                        标题
+                        <Icon type="edit" onClick={() => {}} style={{marginLeft: '5px'}}/>
+                    </>
+                )
+            },
+            titleText: '操作',
+            dataIndex: 'action',
+            fixed: values.fixed,
+            render() {
+                return (
+                    <>
+                        {
+                            values.opts.map((item, index) => (
+                                item.link ?
+                                    <a href={'/'} target="_blank" className="mar10" key={index}>{item.text}</a>
+                                    :
+                                    <a href="javascript:;" className="mar10" key={index} onClick={() => {}}>{item.text}</a>
+                            ))
+                        }
+                    </>
+                )
+            },
+            renderText: `
+                render() {
+                    return (
+                        <>
+                            ${
+                                values.opts.map((item, index) => (
+                                    item.link ?
+                                        `<a href={'/'} target="_blank" className="mar10" key={index}>${item.text}</a>`
+                                        :
+                                        `<a href="javascript:;" className="mar10" key={index} onClick={() => {}}>${item.text}</a>`
+                                ))
+                            }
+                        </>
+                    )
+                }
+            `
+        })
+        this.setState({
+            columns,
+        })
+        this.closeOpt();
     }
 
     /**
