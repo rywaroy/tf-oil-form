@@ -87,6 +87,6 @@ class SetColumn extends Component {
     }
 }
 
-const SetColumnForm = Form.create({ name: 'horizontal_login' })(SetColumn);
+const SetColumnForm = Form.create({ name: 'set_column' })(SetColumn);
  
 export default SetColumnForm;
