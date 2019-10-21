@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import SetColumn from './components/SetColumn';
+import SetOpt from './components/setOpt';
 import styles from './index.css';
 
 
@@ -16,7 +17,9 @@ class Index extends Component {
             visibleSetColumn: false, // 设置列
             setColumnKey: Math.random(),
             setIndex: null,
-            setColumnObj: {}
+            setColumnObj: {},
+            visibleOpt: false, // 是否显示添加操作弹窗
+            optKey: Math.random(),
         }
     }
 
@@ -142,19 +145,58 @@ class Index extends Component {
         })
     }
 
+    /**
+     * 打开添加操作弹窗
+     */
+    openOpt() {
+        // if (this.state.columns.length === 0) {
+        //     return;
+        // }
+        this.setState({
+            visibleOpt: true,
+            optKey: Math.random()
+        })
+    }
+
+    /**
+     * 设置操作
+     */
+    opt() {
+
+    }
+
+    /**
+     * 关闭添加操作弹窗
+     */
+    closeOpt() {
+        this.setState({
+            visibleOpt: false,
+        })
+    }
+
     render() {
-        const { columns, dataSource, visibleSetColumn, setColumnKey, setColumnObj } = this.state;
+        const {
+            columns,
+            dataSource,
+            visibleSetColumn,
+            setColumnKey,
+            setColumnObj,
+            visibleAdd,
+            visibleOpt,
+            optKey
+        } = this.state;
 
         return (
             <div className={styles.indexWrap}>
-                <Button type="primary" onClick={this.openAdd.bind(this)}>批量添加</Button>
+                <Button type="primary" onClick={this.openAdd.bind(this)} style={{marginRight: '10px'}}>批量添加</Button>
+                <Button type="primary" onClick={this.openOpt.bind(this)}>添加操作</Button>
                 <Table
                     columns={columns}
                     dataSource={dataSource}>
                 </Table>
                 <Modal
                     title="批量添加"
-                    visible={this.state.visibleAdd}
+                    visible={visibleAdd}
                     onOk={this.add.bind(this)}
                     onCancel={this.closeAdd.bind(this)}>
                         <InputNumber style={{width: '400px'}} min={1} defaultValue={5} onChange={this.addNumberChange.bind(this)}/>
@@ -165,6 +207,11 @@ class Index extends Component {
                     {...setColumnObj}
                     onOk={this.setColumn}
                     onCancel={this.closeSetColumn} />
+                <SetOpt
+                    key={optKey}
+                    visibleOpt={visibleOpt}
+                    onOk={this.opt.bind(this)}
+                    onCancel={this.closeOpt.bind(this)} />
             </div>
         );
     }
