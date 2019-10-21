@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
-import { Modal, InputNumber, Input, Form, Radio } from 'antd';
+import { Modal, InputNumber, Input, Form, Radio, Button } from 'antd';
 
 const fixedOptions = [
     { label: 'false', value: false },
     { label: 'true', value: true },
 ]
 
+const linkOptions = [
+    { label: 'false', value: false },
+    { label: 'true', value: true },
+]
+
 class SetOpt extends Component {
+
+    state = {
+        opts: [],
+    }
 
     setOpt() {
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                const res = this.state.opts.every(item => item.text);
+                if (!res) {
+                    return;
+                }
+                values.opt = this.state.opts;
                 this.props.onOk(values);
             }
         });
@@ -18,6 +32,33 @@ class SetOpt extends Component {
 
     closeOpt() {
         this.props.onCancel();
+    }
+
+    addOpt() {
+        const opts = [...this.state.opts];
+        opts.push({
+            text: '',
+            link: false,
+        });
+        this.setState({
+            opts
+        })
+    }
+
+    optInputChange(e, index) {
+        const opts = [...this.state.opts];
+        opts[index].text = e.target.value;
+        this.setState({
+            opts
+        })
+    }
+
+    optRadioChange(e, index) {
+        const opts = [...this.state.opts];
+        opts[index].link = e.target.value;
+        this.setState({
+            opts
+        })
     }
     
     render() {
@@ -47,7 +88,16 @@ class SetOpt extends Component {
                                     <Radio.Group options={fixedOptions} />
                                 )}
                         </Form.Item>
-                        <div>操作按钮：</div>
+                        <div>操作按钮： <Button type="primary" onClick={this.addOpt.bind(this)}>添加</Button></div>
+                        {
+                            this.state.opts.map((item, index) => (
+                                <div className="set-opt-line">
+                                    <Input placeholder="操作名称" className="set-opt-input" allowClear onChange={e => this.optInputChange(e, index)}/>
+                                    link: &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Radio.Group options={linkOptions} value={item.link} onChange={e => this.optRadioChange(e, index)}/>
+                                </div>
+                            ))
+                        }
                     </Form>
             </Modal>
         );

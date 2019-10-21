@@ -5,3 +5,16 @@ html, body, #root {
 body {
   margin: 0;
 }
+
+.indexWrap {
+  padding: 20px;
+}
+
+.set-opt-line {
+  padding: 5px 0;
+}
+
+.set-opt-line .set-opt-input {
+  width: 100px;
+  margin-right: 20px;
+}

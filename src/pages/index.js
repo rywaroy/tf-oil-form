@@ -3,7 +3,6 @@ import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import SetColumn from './components/SetColumn';
 import SetOpt from './components/setOpt';
-import styles from './index.css';
 
 
 class Index extends Component {
@@ -161,8 +160,8 @@ class Index extends Component {
     /**
      * 设置操作
      */
-    opt() {
-
+    opt(values) {
+        console.log(values);
     }
 
     /**
@@ -187,7 +186,7 @@ class Index extends Component {
         } = this.state;
 
         return (
-            <div className={styles.indexWrap}>
+            <div className="indexWrap">
                 <Button type="primary" onClick={this.openAdd.bind(this)} style={{marginRight: '10px'}}>批量添加</Button>
                 <Button type="primary" onClick={this.openOpt.bind(this)}>添加操作</Button>
                 <Table
