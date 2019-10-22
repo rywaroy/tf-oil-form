@@ -189,22 +189,14 @@ class Index extends Component {
                     </>
                 )
             },
-            renderText: `
-                render() {
-                    return (
-                        <>
-                            ${
+            renderText: `() => {return (<>${
                                 values.opts.map((item, index) => (
                                     item.link ?
                                         `<a href={'/'} target="_blank" className="mar10" key={index}>${item.text}</a>`
                                         :
-                                        `<a href="javascript:;" className="mar10" key={index} onClick={() => {}}>${item.text}</a>`
+                                        `<a href=\"javascript:;\" className=\"mar10\" key={index} onClick={() => {}}>${item.text}</a>`
                                 ))
-                            }
-                        </>
-                    )
-                }
-            `,
+                            }</>)}`,
             opts: values.opts
         }
         const { width, fixed } = values;
@@ -214,7 +206,12 @@ class Index extends Component {
         if (fixed) {
             opt.fixed = fixed;
         }
-        columns.push(opt)
+        if (columns[columns.length - 1].dataIndex === 'action') {
+            columns[columns.length - 1] = opt;
+        } else {
+            columns.push(opt)
+        }
+        
         this.setState({
             columns,
         })
@@ -241,6 +238,24 @@ class Index extends Component {
         })
     }
 
+    /**
+     * 生成代码
+     */
+    create() {
+        const columns = [...this.state.columns]
+        for (const item of columns) {
+            item.title = item.titleText;
+            delete item.titleText;
+            if (item.renderText) {
+                item.render = item.renderText;
+                delete item.renderText;
+                delete item.opts;
+            }
+        }
+        console.log(JSON.stringify(columns))
+
+    }
+
     render() {
         const {
             columns,
@@ -257,7 +272,8 @@ class Index extends Component {
         return (
             <div className="indexWrap">
                 <Button type="primary" onClick={this.openAdd.bind(this)} style={{marginRight: '10px'}}>批量添加</Button>
-                <Button type="primary" onClick={this.openOpt.bind(this)}>添加操作</Button>
+                <Button type="primary" onClick={this.openOpt.bind(this)} style={{marginRight: '10px'}}>添加操作</Button>
+                <Button type="primary" onClick={this.create.bind(this)}>生成代码</Button>
                 <Table
                     columns={columns}
                     dataSource={dataSource}
