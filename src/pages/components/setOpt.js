@@ -68,7 +68,6 @@ class SetOpt extends Component {
             width: width ? width : undefined,
             fixed: fixed ? fixed : undefined,
         });
-        console.log(opts);
         if (opts) {
             this.setState({
                 opts

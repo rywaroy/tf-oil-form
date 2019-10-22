@@ -3,7 +3,6 @@ import { Table, Button, Modal, InputNumber, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import SetColumn from './components/SetColumn';
 import SetOpt from './components/setOpt';
-import { spawn } from 'child_process';
 
 
 class Index extends Component {
@@ -11,7 +10,7 @@ class Index extends Component {
         super(props);
         this.state = {
             columns: [],
-            dataSource: [{}, {}],
+            dataSource: [{id: 1}, {id: 2}],
             visibleAdd: false, // 是否显示批量添加弹窗
             addNumber: 5, // 批量添加个数
             visibleSetColumn: false, // 设置列
@@ -150,9 +149,9 @@ class Index extends Component {
      * 打开添加操作弹窗
      */
     openOpt() {
-        // if (this.state.columns.length === 0) {
-        //     return;
-        // }
+        if (this.state.columns.length === 0) {
+            return;
+        }
         this.setState({
             visibleOpt: true,
             optKey: Math.random()
@@ -169,7 +168,7 @@ class Index extends Component {
             title: () => {
                 return (
                     <>
-                        标题
+                        操作
                         <Icon type="edit" onClick={() => {this.editOpt(index)}} style={{marginLeft: '5px'}}/>
                     </>
                 )
@@ -262,7 +261,7 @@ class Index extends Component {
                 <Table
                     columns={columns}
                     dataSource={dataSource}
-                    scroll={{x: 1000}}>
+                    rowKey={r => r.id}>
                 </Table>
                 <Modal
                     title="批量添加"
