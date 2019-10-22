@@ -20,6 +20,7 @@ class Index extends Component {
             setColumnObj: {},
             visibleOpt: false, // 是否显示添加操作弹窗
             optKey: Math.random(),
+            setOptObj: {}
         }
     }
 
@@ -163,18 +164,18 @@ class Index extends Component {
      */
     opt(values) {
         const columns = [...this.state.columns];
-        columns.push({
-            title() {
+        const index = columns.length;
+        const opt = {
+            title: () => {
                 return (
                     <>
                         标题
-                        <Icon type="edit" onClick={() => {}} style={{marginLeft: '5px'}}/>
+                        <Icon type="edit" onClick={() => {this.editOpt(index)}} style={{marginLeft: '5px'}}/>
                     </>
                 )
             },
             titleText: '操作',
             dataIndex: 'action',
-            fixed: values.fixed,
             render() {
                 return (
                     <>
@@ -204,8 +205,17 @@ class Index extends Component {
                         </>
                     )
                 }
-            `
-        })
+            `,
+            opts: values.opts
+        }
+        const { width, fixed } = values;
+        if (width) {
+            opt.width = width;
+        }
+        if (fixed) {
+            opt.fixed = fixed;
+        }
+        columns.push(opt)
         this.setState({
             columns,
         })
@@ -221,6 +231,17 @@ class Index extends Component {
         })
     }
 
+    /**
+     * 编辑操作弹窗
+     */
+    editOpt(index) {
+        this.setState({
+            visibleOpt: true,
+            optKey: Math.random(),
+            setOptObj: this.state.columns[index],
+        })
+    }
+
     render() {
         const {
             columns,
@@ -230,7 +251,8 @@ class Index extends Component {
             setColumnObj,
             visibleAdd,
             visibleOpt,
-            optKey
+            optKey,
+            setOptObj
         } = this.state;
 
         return (
@@ -239,7 +261,8 @@ class Index extends Component {
                 <Button type="primary" onClick={this.openOpt.bind(this)}>添加操作</Button>
                 <Table
                     columns={columns}
-                    dataSource={dataSource}>
+                    dataSource={dataSource}
+                    scroll={{x: 1000}}>
                 </Table>
                 <Modal
                     title="批量添加"
@@ -257,6 +280,7 @@ class Index extends Component {
                 <SetOpt
                     key={optKey}
                     visibleOpt={visibleOpt}
+                    {...setOptObj}
                     onOk={this.opt.bind(this)}
                     onCancel={this.closeOpt.bind(this)} />
             </div>
