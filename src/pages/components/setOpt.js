@@ -3,7 +3,8 @@ import { Modal, InputNumber, Input, Form, Radio, Button } from 'antd';
 
 const fixedOptions = [
     { label: 'false', value: false },
-    { label: 'true', value: true },
+    { label: 'right', value: 'right' },
+    { label: 'left', value: 'left' },
 ]
 
 const linkOptions = [
@@ -60,6 +61,20 @@ class SetOpt extends Component {
             opts
         })
     }
+
+    componentDidMount() {
+        const { width, fixed, opts } = this.props;
+        this.props.form.setFieldsValue({
+            width: width ? width : undefined,
+            fixed: fixed ? fixed : undefined,
+        });
+        console.log(opts);
+        if (opts) {
+            this.setState({
+                opts
+            })
+        }
+    }
     
     render() {
         const formItemLayout = {
@@ -92,7 +107,7 @@ class SetOpt extends Component {
                         {
                             this.state.opts.map((item, index) => (
                                 <div className="set-opt-line" key={index}>
-                                    <Input placeholder="操作名称" className="set-opt-input" allowClear onChange={e => this.optInputChange(e, index)}/>
+                                    <Input placeholder="操作名称" className="set-opt-input" allowClear onChange={e => this.optInputChange(e, index)} value={item.text}/>
                                     link: &nbsp;&nbsp;&nbsp;&nbsp;
                                     <Radio.Group options={linkOptions} value={item.link} onChange={e => this.optRadioChange(e, index)}/>
                                 </div>
