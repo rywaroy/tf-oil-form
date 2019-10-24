@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input, message } from 'antd';
-import 'antd/dist/antd.css';
-import SetColumn from './components/setColumn/setColumn';
-import SetOpt from './components/setOpt/setOpt';
+import SetColumn from '../setColumn/setColumn';
+import SetOpt from '../setOpt/setOpt';
 import cloneDeep from 'loadsh/cloneDeep';
 import Clipboard from 'clipboard';
 
