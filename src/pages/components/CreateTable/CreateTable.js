@@ -7,7 +7,7 @@ import Clipboard from 'clipboard';
 
 const { TextArea } = Input;
 
-class Index extends Component {
+class CreateTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -369,28 +369,5 @@ class Index extends Component {
   }
 }
 
-export default Index;
+export default CreateTable;
 
-const a = [
-  { title: '标题1', dataIndex: '标题1' },
-  { title: '标题2', dataIndex: '标题2' },
-  { title: '标题3', dataIndex: '标题3' },
-  { title: '标题4', dataIndex: '标题4' },
-  { title: '标题5', dataIndex: '标题5' },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    render: () => (
-      <>
-        <a href="javascript:;" className="mr10" onClick={() => {}}>
-          1
-        </a>
-        <a href="/" target="_blank" className="mr10">
-          2
-        </a>
-      </>
-    ),
-    width: 111,
-    fixed: 'right',
-  },
-];
