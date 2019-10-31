@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Select, DatePicker, Row, Col, Input, InputNumber, Checkbox, Radio } from 'antd';
-import { TfOilAddr, CertificateUpload, ImportExcel, NumRange, TimePickerRange, FileUpload, MonthPickerRange } from '../../../components';
+// import { TfOilAddr, CertificateUpload, ImportExcel, NumRange, TimePickerRange, FileUpload, MonthPickerRange } from '../../../components';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -14,9 +14,9 @@ const { RangePicker, MonthPicker } = DatePicker;
 
 /* 目前支持的form表单类型*/
 const mapTypeToComponent = {
-    'excel': {
-        WrappedComponent: ImportExcel,
-    },
+    // 'excel': {
+    //     WrappedComponent: ImportExcel,
+    // },
     'label': '',
     'input': {
         WrappedComponent: Input,
@@ -27,15 +27,15 @@ const mapTypeToComponent = {
     'password': {
         WrappedComponent: Password,
     },
-    'numrange': {
-        WrappedComponent: NumRange,
-    },
-    'addr': {
-        WrappedComponent: TfOilAddr,
-    },
-    'upload': {
-        WrappedComponent: CertificateUpload,
-    },
+    // 'numrange': {
+    //     WrappedComponent: NumRange,
+    // },
+    // 'addr': {
+    //     WrappedComponent: TfOilAddr,
+    // },
+    // 'upload': {
+    //     WrappedComponent: CertificateUpload,
+    // },
     'select': {
         WrappedComponent: Select,
         defaultProps: {
@@ -44,9 +44,9 @@ const mapTypeToComponent = {
         optionsData: 'selectOptions',
         SubComponent: Option
     },
-    'timepickerrange': {
-        WrappedComponent: TimePickerRange
-    },
+    // 'timepickerrange': {
+    //     WrappedComponent: TimePickerRange
+    // },
     'datepicker': {
         WrappedComponent: DatePicker,
     },
@@ -85,12 +85,12 @@ const mapTypeToComponent = {
             marginLeft: '10px'
         }
     },
-    'fileupload': {
-        WrappedComponent: FileUpload,
-    },
-    'monthpickerrange': {
-        WrappedComponent: MonthPickerRange,
-    }
+    // 'fileupload': {
+    //     WrappedComponent: FileUpload,
+    // },
+    // 'monthpickerrange': {
+    //     WrappedComponent: MonthPickerRange,
+    // }
 };
 
 class GenerateForm extends React.Component {
