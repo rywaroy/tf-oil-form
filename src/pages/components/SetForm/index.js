@@ -21,12 +21,12 @@ const TYPES = [
     { value: 'checkboxgroup', label: '输入框组 checkboxgroup' },
     { value: 'textarea', label: '文本框 textarea' },
     { value: 'radiogroup', label: '单选组 radiogroup' },
-]
+];
 
 class SetForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {};
     }
 
     setForm() {
@@ -58,25 +58,33 @@ class SetForm extends Component {
                 title="设置"
                 visible={visibleSetForm}
                 onOk={this.setForm.bind(this)}
-                onCancel={this.closeSetForm.bind(this)}>
-                    <Form  {...formItemLayout}>
-                    <Form.Item
-                            label="类型 type">
-                                {getFieldDecorator('type')(
-                                    <Select>
-                                        {
-                                            TYPES.map((item, index) => <Option value={item.value} key={index}  defaultValue="input">{item.label}</Option>)
-                                        }
-                                        
-                                    </Select>
-                                )}
-                        </Form.Item>
-                    </Form>
+                onCancel={this.closeSetForm.bind(this)}
+            >
+                <Form {...formItemLayout}>
+                    <Form.Item label="类型 type">
+                        {getFieldDecorator('type', {
+                            initialValue: 'input',
+                        })(
+                            <Select>
+                                {TYPES.map((item, index) => (
+                                    <Option value={item.value} key={index}>
+                                        {item.label}
+                                    </Option>
+                                ))}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="标签 label">
+                        {getFieldDecorator('label')(
+                            <Input />
+                        )}
+                    </Form.Item>
+                </Form>
             </Modal>
         );
     }
 }
 
 const SetFormForm = Form.create({ name: 'set_form' })(SetForm);
- 
+
 export default SetFormForm;
