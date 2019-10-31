@@ -28,6 +28,11 @@ const initialValueOptions = [
     { label: 'true', value: true },
 ]
 
+const colonOptions = [
+    { label: 'true', value: true },
+    { label: 'false', value: false },
+]
+
 class SetForm extends Component {
     constructor(props) {
         super(props);
@@ -94,6 +99,13 @@ class SetForm extends Component {
                     <Form.Item label="自定义类 colClass">
                         {getFieldDecorator('colClass')(
                             <Input />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="冒号 colon">
+                        {getFieldDecorator('colon', {
+                            initialValue: true
+                        })(
+                            <Radio.Group options={colonOptions} />
                         )}
                     </Form.Item>
                 </Form>
