@@ -23,6 +23,11 @@ const TYPES = [
     { value: 'radiogroup', label: '单选组 radiogroup' },
 ];
 
+const initialValueOptions = [
+    { label: 'false', value: false },
+    { label: 'true', value: true },
+]
+
 class SetForm extends Component {
     constructor(props) {
         super(props);
@@ -77,6 +82,13 @@ class SetForm extends Component {
                     <Form.Item label="标签 label">
                         {getFieldDecorator('label')(
                             <Input />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="默认值 initialValue">
+                        {getFieldDecorator('initialValue', {
+                            initialValue: false
+                        })(
+                            <Radio.Group options={initialValueOptions} />
                         )}
                     </Form.Item>
                 </Form>
