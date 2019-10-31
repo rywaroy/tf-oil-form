@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Select, Input, Form, Radio, Checkbox, DatePicker } from 'antd';
+import { Modal, Select, Input, Form, Radio, Checkbox, DatePicker, InputNumber } from 'antd';
 
 const { Option } = Select;
 const { TextArea, Password } = Input;
@@ -31,6 +31,11 @@ const initialValueOptions = [
 const colonOptions = [
     { label: 'true', value: true },
     { label: 'false', value: false },
+]
+
+const addonAfterOptions = [
+    { label: 'false', value: false },
+    { label: 'true', value: true },
 ]
 
 class SetForm extends Component {
@@ -85,7 +90,11 @@ class SetForm extends Component {
                         )}
                     </Form.Item>
                     <Form.Item label="标签 label">
-                        {getFieldDecorator('label')(
+                        {getFieldDecorator('label', {
+                            rules: [
+                                { required: true, message: '请输入标签' }
+                            ]
+                        })(
                             <Input />
                         )}
                     </Form.Item>
@@ -106,6 +115,18 @@ class SetForm extends Component {
                             initialValue: true
                         })(
                             <Radio.Group options={colonOptions} />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="后缀 addonAfter">
+                        {getFieldDecorator('addonAfter', {
+                            initialValue: false
+                        })(
+                            <Radio.Group options={addonAfterOptions} />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="布局 span">
+                        {getFieldDecorator('span')(
+                            <InputNumber />
                         )}
                     </Form.Item>
                 </Form>
