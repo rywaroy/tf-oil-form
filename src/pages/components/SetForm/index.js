@@ -54,7 +54,7 @@ class SetForm extends Component {
         const { visibleSetForm } = this.props;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
-            labelCol: { span: 6 },
+            labelCol: { span: 8 },
             wrapperCol: { span: 14 },
         };
 
@@ -89,6 +89,11 @@ class SetForm extends Component {
                             initialValue: false
                         })(
                             <Radio.Group options={initialValueOptions} />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="自定义类 colClass">
+                        {getFieldDecorator('colClass')(
+                            <Input />
                         )}
                     </Form.Item>
                 </Form>
