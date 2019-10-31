@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd';
 import 'antd/dist/antd.css';
-import CreateTable from './components/CreateTable/CreateTable';
+import CreateTable from './components/CreateTable';
+import CreateForm from './components/CreateForm';
 
 const { TabPane } = Tabs;
 
@@ -15,12 +16,12 @@ class Index extends Component {
 
     return (
       <div className="indexWrap">
-          <Tabs defaultActiveKey="1" animated={false}>
+          <Tabs defaultActiveKey="form" animated={false}>
             <TabPane tab="table" key="table">
               <CreateTable />
             </TabPane>
             <TabPane tab="form" key="form">
-              Content of Tab Pane 2
+              <CreateForm />
             </TabPane>
           </Tabs>
       </div>
