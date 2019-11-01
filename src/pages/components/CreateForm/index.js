@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input, message, Form } from 'antd';
+import { Table, Button, Modal, InputNumber, Icon, Input, message, Form, Radio } from 'antd';
 import GenerateForm from '../GenerateForm';
 import SetForm from '../SetForm';
 import styles from './index.less';
+
+const typeOptions = [
+    { value: 'filter', label: '筛选表单 filter' },
+    { value: 'modal', label: '弹窗表单 modal' },
+]
 
 class CreateForm extends Component {
     constructor(props) {
@@ -11,7 +16,8 @@ class CreateForm extends Component {
             formOption: [],
             visibleSetForm: false,
             setFormKey: Math.random(),
-            width: 800
+            width: 520, // 容器宽度
+            type: 'filter', // 表单类型
         };
     }
 
@@ -46,8 +52,19 @@ class CreateForm extends Component {
         });
     }
 
+    /**
+     * 表单类型切换
+     */
+    typeChange = e => {
+        const type = e.target.value;
+        this.setState({
+            type,
+            width: type === 'filter' ? 520 : 1000
+        })
+    }
+
     render() { 
-        const { formOption, visibleSetForm, setFormKey, width } = this.state;
+        const { formOption, visibleSetForm, setFormKey, width, type } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 4 },
@@ -63,15 +80,16 @@ class CreateForm extends Component {
                 </div>
                 <div>
                     <Form {...formItemLayout}>
+                        <Form.Item label="表单类型">
+                            <Radio.Group options={typeOptions} onChange={this.typeChange} value={type}/>
+                        </Form.Item>
                         <Form.Item label="容器宽度 width">
-                            {getFieldDecorator('width')(
-                                <InputNumber onBlur={this.boxWidthChange}/>
-                            )}
+                            <InputNumber step={100} onChange={value => this.setState({width: value})} value={width}/>
                         </Form.Item>
                     </Form>
                 </div>
                 <div className={styles.formBox} style={{width: `${width}px`}}>
-                    <GenerateForm formSet={formOption}/>
+                    <GenerateForm formSet={formOption} formType={type}/>
                 </div>
                 <SetForm 
                     visibleSetForm={visibleSetForm}
