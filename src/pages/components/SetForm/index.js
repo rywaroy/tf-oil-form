@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Select, Input, Form, Radio, Checkbox, DatePicker, InputNumber } from 'antd';
+import { Modal, Select, Input, Form, Radio, Checkbox, DatePicker, InputNumber, Button } from 'antd';
 
 const { Option } = Select;
 const { TextArea, Password } = Input;
@@ -44,11 +44,14 @@ const formItemLayoutOptions = [
     { label: '数值', value: '数值' },
 ]
 
+const ruleTypes = ['required', 'max', 'min', 'len'];
+
 class SetForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showCol: false,
+            rules: [],
         };
     }
 
@@ -81,6 +84,61 @@ class SetForm extends Component {
         })
     }
 
+    /**
+     * 添加规则
+     */
+    addRule = () => {
+        const rules = [...this.state.rules];
+        rules.push({
+            rule: 'required',
+            content: true,
+            message: '',
+            id: Math.random(),
+        });
+        this.setState({
+            rules
+        });
+    }
+
+    /**
+     * 选择规则
+     */
+    rulesChange = (value, index) => {
+        const rules = [...this.state.rules];
+        rules[index].rule = value;
+        if (value === 'required') {
+            rules[index].content = true;
+        } else {
+            rules[index].content = '';
+        }
+        rules[index].message = '';
+        this.setState({
+            rules
+        });
+    }
+
+    /**
+     * 删除规则
+     */
+    deleteRule = index => {
+        const rules = [...this.state.rules];
+        rules.splice(index, 1);
+        this.setState({
+            rules
+        });
+    }
+
+    /**
+     * 修改规则内容
+     */
+    contentChange = (value, index) => {
+        const rules = [...this.state.rules];
+        rules[index].content = value;
+        this.setState({
+            rules
+        });
+    }
+
     render() {
         const { visibleSetForm } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -88,7 +146,7 @@ class SetForm extends Component {
             labelCol: { span: 8 },
             wrapperCol: { span: 14 },
         };
-        const { showCol } = this.state;
+        const { showCol, rules } = this.state;
 
         return (
             <Modal
@@ -174,6 +232,28 @@ class SetForm extends Component {
                             )}
                         </Form.Item>
                     }
+                    <Form.Item label={<span>规则 rules <Button type="primary" icon="plus" size="small" onClick={this.addRule}/></span>}>
+                        {
+                            rules.map((item, index) => {
+                                return(
+                                    <div key={item.id}>
+                                        <Select style={{width: 100, marginRight: 10}} value={item.rule} onChange={value => this.rulesChange(value, index)}>
+                                            {ruleTypes.map((item, r) => (
+                                                <Option value={item} key={r}>
+                                                    {item}
+                                                </Option>
+                                            ))}
+                                        </Select>
+                                        {
+                                            (item.rule === 'len' || item.rule === 'max' || item.rule === 'min') &&
+                                            <InputNumber  style={{marginRight: 10}} onChange={value => this.contentChange(value, index)}/>
+                                        }
+                                        <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)}/>
+                                    </div>
+                                )
+                            })
+                        }
+                    </Form.Item>
                 </Form>
             </Modal>
         );
