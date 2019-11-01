@@ -58,8 +58,33 @@ class SetForm extends Component {
     setForm() {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // this.props.onOk(values);
-                console.log(values);
+                const { type, label, initialValue, colClass, colon, addonAfter, span, formItemLayout, labelCol, wrapperCol } = values;
+                const obj = {
+                    type,
+                    label,
+                    name: label
+                };
+                if (initialValue) obj.initialValue = '';
+                if (colClass) obj.colClass = '';
+                if (!colon) obj.colon = false;
+                if (addonAfter) obj.addonAfter = '';
+                if (span) obj.span = span;
+                if (formItemLayout === '数值') {
+                    obj.formItemLayout = {
+                        labelCol: { span: labelCol },
+                        wrapperCol: { span: wrapperCol },
+                    }
+                }
+                if (formItemLayout === '变量') {
+                    obj.formItemLayout = 'formItemLayout'
+                }
+                if (this.state.rules.length > 0) {
+                    obj.rules = this.state.rules.map(item => ({
+                        [item.rule]: item.content,
+                        message: item.message
+                    }));
+                }
+                this.props.onOk(obj);
             }
         });
     }
@@ -138,6 +163,18 @@ class SetForm extends Component {
             rules
         });
     }
+
+    /**
+     * 修改规则提示
+     */
+    messageChange = (e, index) => {
+        const rules = [...this.state.rules];
+        rules[index].message = e.target.value;
+        this.setState({
+            rules
+        });
+    }
+
 
     render() {
         const { visibleSetForm } = this.props;
@@ -236,7 +273,7 @@ class SetForm extends Component {
                         {
                             rules.map((item, index) => {
                                 return(
-                                    <div key={item.id}>
+                                    <div key={item.id} style={{border: '1px solid #ccc', padding: '5px 10px', borderRadius: 8, marginBottom: 5}}>
                                         <Select style={{width: 100, marginRight: 10}} value={item.rule} onChange={value => this.rulesChange(value, index)}>
                                             {ruleTypes.map((item, r) => (
                                                 <Option value={item} key={r}>
@@ -249,6 +286,7 @@ class SetForm extends Component {
                                             <InputNumber  style={{marginRight: 10}} onChange={value => this.contentChange(value, index)}/>
                                         }
                                         <Button type="primary" icon="close" size="small" onClick={() => this.deleteRule(index)}/>
+                                        <Input placeholder="message" onChange={e => this.messageChange(e, index)}/>
                                     </div>
                                 )
                             })
