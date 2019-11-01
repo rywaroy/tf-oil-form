@@ -38,10 +38,18 @@ const addonAfterOptions = [
     { label: 'true', value: true },
 ]
 
+const formItemLayoutOptions = [
+    { label: 'false', value: false },
+    { label: '变量', value: '变量' },
+    { label: '数值', value: '数值' },
+]
+
 class SetForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            showCol: false,
+        };
     }
 
     setForm() {
@@ -60,6 +68,19 @@ class SetForm extends Component {
         this.props.onCancel();
     }
 
+    /**
+     * 
+     */
+    layoutChange = e => {
+        let showCol = false;
+        if (e.target.value === '数值') {
+            showCol = true;
+        }
+        this.setState({
+            showCol,
+        })
+    }
+
     render() {
         const { visibleSetForm } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -67,6 +88,7 @@ class SetForm extends Component {
             labelCol: { span: 8 },
             wrapperCol: { span: 14 },
         };
+        const { showCol } = this.state;
 
         return (
             <Modal
@@ -124,11 +146,34 @@ class SetForm extends Component {
                             <Radio.Group options={addonAfterOptions} />
                         )}
                     </Form.Item>
-                    <Form.Item label="布局 span">
+                    <Form.Item label="长度 span">
                         {getFieldDecorator('span')(
                             <InputNumber />
                         )}
                     </Form.Item>
+                    <Form.Item label="布局 formItemLayout">
+                        {getFieldDecorator('formItemLayout', {
+                            initialValue: false
+                        })(
+                            <Radio.Group options={formItemLayoutOptions} onChange={this.layoutChange}/>
+                        )}
+                    </Form.Item>
+                    {
+                        showCol &&
+                        <Form.Item label="labelCol">
+                            {getFieldDecorator('labelCol')(
+                                <InputNumber />
+                            )}
+                        </Form.Item>
+                    }
+                    {
+                        showCol &&
+                        <Form.Item label="wrapperCol">
+                            {getFieldDecorator('wrapperCol')(
+                                <InputNumber />
+                            )}
+                        </Form.Item>
+                    }
                 </Form>
             </Modal>
         );
