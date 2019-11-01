@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { Modal, Select, Input, Form, Radio, Checkbox, DatePicker, InputNumber, Button } from 'antd';
 
 const { Option } = Select;
-const { TextArea, Password } = Input;
-const RadioGroup = Radio.Group;
-const RadioButton = Radio.Button;
-const CheckboxGroup = Checkbox.Group;
-const { RangePicker, MonthPicker } = DatePicker;
 
 const TYPES = [
     { value: 'label', label: '文字 label' },
