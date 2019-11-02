@@ -7,7 +7,7 @@ import styles from './index.less';
 const typeOptions = [
     { value: 'filter', label: '筛选表单 filter' },
     { value: 'modal', label: '弹窗表单 modal' },
-]
+];
 
 class CreateForm extends Component {
     constructor(props) {
@@ -25,32 +25,32 @@ class CreateForm extends Component {
         this.setState({
             visibleSetForm: true,
             setFormKey: Math.random(),
-        })
+        });
     }
 
     closeAdd() {
         this.setState({
             visibleSetForm: false,
-        })
+        });
     }
 
     add = values => {
         const formOption = [...this.state.formOption];
         formOption.push(values);
         this.setState({
-            formOption
+            formOption,
         });
         this.closeAdd();
-    }
+    };
 
     /**
      * 设置容器宽度
      */
     boxWidthChange = e => {
         this.setState({
-            width: e.target.value
+            width: e.target.value,
         });
-    }
+    };
 
     /**
      * 表单类型切换
@@ -59,13 +59,20 @@ class CreateForm extends Component {
         const type = e.target.value;
         this.setState({
             type,
-            width: type === 'filter' ? 520 : 1000
-        })
-    }
+            width: type === 'filter' ? 520 : 1000,
+        });
+    };
 
-    render() { 
+    /**
+     * 模拟提交
+     */
+    handleSubmit = e => {
+        e.preventDefault();
+        this.generateForm.verify();
+    };
+
+    render() {
         const { formOption, visibleSetForm, setFormKey, width, type } = this.state;
-        const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -74,28 +81,50 @@ class CreateForm extends Component {
         return (
             <div>
                 <div>
-                    <Button type="primary" onClick={this.openAdd.bind(this)} style={{ marginRight: '10px' }}>
+                    <Button
+                        type="primary"
+                        onClick={this.openAdd.bind(this)}
+                        style={{ marginRight: '10px' }}
+                    >
                         添加
                     </Button>
                 </div>
                 <div>
                     <Form {...formItemLayout}>
                         <Form.Item label="表单类型">
-                            <Radio.Group options={typeOptions} onChange={this.typeChange} value={type}/>
+                            <Radio.Group
+                                options={typeOptions}
+                                onChange={this.typeChange}
+                                value={type}
+                            />
                         </Form.Item>
                         <Form.Item label="容器宽度 width">
-                            <InputNumber step={100} onChange={value => this.setState({width: value})} value={width}/>
+                            <InputNumber
+                                step={100}
+                                onChange={value => this.setState({ width: value })}
+                                value={width}
+                            />
                         </Form.Item>
                     </Form>
                 </div>
-                <div className={styles.formBox} style={{width: `${width}px`}}>
-                    <GenerateForm formSet={formOption} formType={type}/>
+                <div className={styles.formBox} style={{ width: `${width}px` }}>
+                    <GenerateForm
+                        formSet={formOption}
+                        formType={type}
+                        wrappedComponentRef={el => (this.generateForm = el)}
+                    />
+                    {formOption.length > 0 && (
+                        <Button type="primary" onClick={this.handleSubmit} className={styles.testButton}>
+                            测试rules
+                        </Button>
+                    )}
                 </div>
-                <SetForm 
+                <SetForm
                     visibleSetForm={visibleSetForm}
-                    key={setFormKey} 
+                    key={setFormKey}
                     onCancel={this.closeAdd.bind(this)}
-                    onOk={this.add.bind(this)}/>
+                    onOk={this.add.bind(this)}
+                />
             </div>
         );
     }
