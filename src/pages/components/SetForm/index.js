@@ -12,7 +12,7 @@ const TYPES = [
     { value: 'datepicker', label: '日期选择框 datepicker' },
     { value: 'monthpicker', label: '月份选择框 monthpicker' },
     { value: 'rangepicker', label: '时间区间选择框 rangepicker' },
-    { value: 'checkbox', label: '多选 checkbox' },
+    // { value: 'checkbox', label: '多选 checkbox' },
     { value: 'checkboxgroup', label: '输入框组 checkboxgroup' },
     { value: 'textarea', label: '文本框 textarea' },
     { value: 'radiogroup', label: '单选组 radiogroup' },
@@ -40,6 +40,12 @@ const formItemLayoutOptions = [
 ]
 
 const ruleTypes = ['required', 'max', 'min', 'len'];
+
+const mockData = [
+    { value: '测试数据1', label: '测试数据1' },
+    { value: '测试数据2', label: '测试数据2' },
+    { value: '测试数据3', label: '测试数据3' },
+];
 
 class SetForm extends Component {
     constructor(props) {
@@ -78,6 +84,15 @@ class SetForm extends Component {
                         [item.rule]: item.content,
                         message: item.message
                     }));
+                }
+                if (type === 'select') {
+                    obj.selectOptions = mockData;
+                }
+                if (type === 'checkboxgroup') {
+                    obj.checkboxOptions = mockData;
+                }
+                if (type === 'radiogroup') {
+                    obj.radioOptions = mockData;
                 }
                 this.props.onOk(obj);
             }
