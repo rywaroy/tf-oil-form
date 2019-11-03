@@ -66,7 +66,7 @@ class CreateForm extends Component {
         const type = e.target.value;
         this.setState({
             type,
-            width: type === 'filter' ? 520 : 1000,
+            width: type === 'filter' ? 1000 : 520,
             name: type === 'filter' ? 'listFiltles' : 'modalForm',
         });
     };
