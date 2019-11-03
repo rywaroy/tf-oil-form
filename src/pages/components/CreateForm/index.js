@@ -32,6 +32,7 @@ class CreateForm extends Component {
             variableType: 'Array', // 变量类型
             labelCol: 8,
             wrapperCol: 16,
+            span: 24,
             defaultLayout: false
         };
     }
@@ -87,6 +88,22 @@ class CreateForm extends Component {
     };
 
     /**
+     * span变化
+     */
+    spanChange = value => {
+        const formOption = [...this.state.formOption];
+        for (const item of formOption) {
+            if (item.formItemLayoutText) {
+                item.span = value
+            }
+        }
+        this.setState({
+            formOption,
+            span: value
+        });
+    }
+
+    /**
      * 模拟提交
      */
     handleSubmit = e => {
@@ -95,7 +112,7 @@ class CreateForm extends Component {
     };
 
     render() {
-        const { formOption, visibleSetForm, setFormKey, width, type, name, variableType, defaultLayout } = this.state;
+        const { formOption, visibleSetForm, setFormKey, width, type, name, variableType, defaultLayout, span } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -148,7 +165,18 @@ class CreateForm extends Component {
                                 onChange={e => this.setState({ defaultLayout: e.target.value })}
                                 value={defaultLayout}
                             />
+                            (针对于选了formItemLayout:变量 生效)
                         </Form.Item>
+                        {
+                            defaultLayout &&
+                            <Form.Item label="span">
+                                <InputNumber
+                                    style={{width: 200}}
+                                    onChange={this.spanChange}
+                                    value={span}
+                                />
+                            </Form.Item>
+                        }
                     </Form>
                 </div>
                 <div className={styles.formBox} style={{ width: `${width}px` }}>
