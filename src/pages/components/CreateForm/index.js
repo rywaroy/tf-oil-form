@@ -14,8 +14,6 @@ const variableTypeOptions = [
     { value: 'Function', label: 'Function' },
 ];
 
-const defaultLayoutOptions = [{ value: false, label: 'false' }, { value: true, label: 'true' }];
-
 class CreateForm extends Component {
     constructor(props) {
         super(props);
@@ -49,6 +47,7 @@ class CreateForm extends Component {
 
     add = values => {
         const formOption = [...this.state.formOption];
+        let defaultLayout = this.state.defaultLayout;
         if (values.formItemLayoutText) {
             // 默认变量布局
             const { labelCol, wrapperCol, span } = this.state;
@@ -57,10 +56,12 @@ class CreateForm extends Component {
                 wrapperCol: { span: wrapperCol },
             };
             values.span = span;
+            defaultLayout = true;
         }
         formOption.push(values);
         this.setState({
             formOption,
+            defaultLayout,
         });
         this.closeAdd();
     };
@@ -103,7 +104,6 @@ class CreateForm extends Component {
     };
 
     labelColChange = value => {
-        console.log(value);
         const formOption = [...this.state.formOption];
         for (const item of formOption) {
             if (item.formItemLayoutText) {
@@ -116,6 +116,19 @@ class CreateForm extends Component {
         });
     }
 
+    wrapperColChange = value => {
+        const formOption = [...this.state.formOption];
+        for (const item of formOption) {
+            if (item.formItemLayoutText) {
+                item.formItemLayout.wrapperCol.span = value;
+            }
+        }
+        this.setState({
+            formOption,
+            wrapperCol: value,
+        });
+    }
+    
     /**
      * 模拟提交
      */
@@ -135,6 +148,7 @@ class CreateForm extends Component {
             variableType,
             span,
             labelCol,
+            wrapperCol,
         } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
@@ -194,6 +208,13 @@ class CreateForm extends Component {
                                 style={{ width: 200 }}
                                 onChange={this.labelColChange}
                                 value={labelCol}
+                            />
+                        </Form.Item>
+                        <Form.Item label="默认wrapperCol">
+                            <InputNumber
+                                style={{ width: 200 }}
+                                onChange={this.wrapperColChange}
+                                value={wrapperCol}
                             />
                         </Form.Item>
                     </Form>
