@@ -18,6 +18,7 @@ class CreateForm extends Component {
             setFormKey: Math.random(),
             width: 520, // 容器宽度
             type: 'filter', // 表单类型
+            name: 'listFiltles', // 变量名
         };
     }
 
@@ -72,7 +73,7 @@ class CreateForm extends Component {
     };
 
     render() {
-        const { formOption, visibleSetForm, setFormKey, width, type } = this.state;
+        const { formOption, visibleSetForm, setFormKey, width, type, name } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -103,6 +104,13 @@ class CreateForm extends Component {
                                 step={100}
                                 onChange={value => this.setState({ width: value })}
                                 value={width}
+                            />
+                        </Form.Item>
+                        <Form.Item label="变量名 name">
+                            <Input
+                                style={{width: 200}}
+                                onChange={e => this.setState({ name: e.target.value })}
+                                value={name}
                             />
                         </Form.Item>
                     </Form>
