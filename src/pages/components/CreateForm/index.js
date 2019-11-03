@@ -9,6 +9,11 @@ const typeOptions = [
     { value: 'modal', label: '弹窗表单 modal' },
 ];
 
+const variableTypeOptions = [
+    { value: 'Array', label: 'Array' },
+    { value: 'Function', label: 'Function' },
+];
+
 class CreateForm extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +24,7 @@ class CreateForm extends Component {
             width: 520, // 容器宽度
             type: 'filter', // 表单类型
             name: 'listFiltles', // 变量名
+            variableType: 'Array', // 变量类型
         };
     }
 
@@ -74,7 +80,7 @@ class CreateForm extends Component {
     };
 
     render() {
-        const { formOption, visibleSetForm, setFormKey, width, type, name } = this.state;
+        const { formOption, visibleSetForm, setFormKey, width, type, name, variableType } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -100,18 +106,25 @@ class CreateForm extends Component {
                                 value={type}
                             />
                         </Form.Item>
-                        <Form.Item label="容器宽度 width">
+                        <Form.Item label="容器宽度">
                             <InputNumber
                                 step={100}
                                 onChange={value => this.setState({ width: value })}
                                 value={width}
                             />
                         </Form.Item>
-                        <Form.Item label="变量名 name">
+                        <Form.Item label="变量名">
                             <Input
                                 style={{width: 200}}
                                 onChange={e => this.setState({ name: e.target.value })}
                                 value={name}
+                            />
+                        </Form.Item>
+                        <Form.Item label="变量类型">
+                            <Radio.Group
+                                options={variableTypeOptions}
+                                onChange={e => this.setState({ variableType: e.target.value })}
+                                value={variableType}
                             />
                         </Form.Item>
                     </Form>
