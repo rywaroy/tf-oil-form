@@ -77,7 +77,7 @@ class SetForm extends Component {
                     }
                 }
                 if (formItemLayout === '变量') {
-                    obj.formItemLayout = 'formItemLayout'
+                    obj.formItemLayoutText = 'formItemLayout'
                 }
                 if (this.state.rules.length > 0) {
                     obj.rules = this.state.rules.map(item => ({
@@ -266,7 +266,11 @@ class SetForm extends Component {
                     {
                         showCol &&
                         <Form.Item label="labelCol">
-                            {getFieldDecorator('labelCol')(
+                            {getFieldDecorator('labelCol', {
+                                rules: [
+                                    { required: true, message: '请输入标签' }
+                                ]
+                            })(
                                 <InputNumber />
                             )}
                         </Form.Item>
@@ -274,7 +278,11 @@ class SetForm extends Component {
                     {
                         showCol &&
                         <Form.Item label="wrapperCol">
-                            {getFieldDecorator('wrapperCol')(
+                            {getFieldDecorator('wrapperCol', {
+                                rules: [
+                                    { required: true, message: '请输入标签' }
+                                ]
+                            })(
                                 <InputNumber />
                             )}
                         </Form.Item>
