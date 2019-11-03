@@ -25,6 +25,8 @@ class CreateForm extends Component {
             type: 'filter', // 表单类型
             name: 'listFiltles', // 变量名
             variableType: 'Array', // 变量类型
+            labelCol: 8,
+            wrapperCol: 16,
         };
     }
 
@@ -43,6 +45,13 @@ class CreateForm extends Component {
 
     add = values => {
         const formOption = [...this.state.formOption];
+        if (values.formItemLayoutText) { // 默认变量布局
+            const { labelCol, wrapperCol } = this.state;
+            values.formItemLayout = {
+                labelCol: { span: labelCol },
+                wrapperCol: { span: wrapperCol },
+            }
+        }
         formOption.push(values);
         this.setState({
             formOption,
