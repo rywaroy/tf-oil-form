@@ -14,10 +14,7 @@ const variableTypeOptions = [
     { value: 'Function', label: 'Function' },
 ];
 
-const defaultLayoutOptions = [
-    { value: false, label: 'false' },
-    { value: true, label: 'true' },
-]
+const defaultLayoutOptions = [{ value: false, label: 'false' }, { value: true, label: 'true' }];
 
 class CreateForm extends Component {
     constructor(props) {
@@ -33,7 +30,7 @@ class CreateForm extends Component {
             labelCol: 8,
             wrapperCol: 16,
             span: 24,
-            defaultLayout: false
+            defaultLayout: false,
         };
     }
 
@@ -52,12 +49,14 @@ class CreateForm extends Component {
 
     add = values => {
         const formOption = [...this.state.formOption];
-        if (values.formItemLayoutText) { // 默认变量布局
-            const { labelCol, wrapperCol } = this.state;
+        if (values.formItemLayoutText) {
+            // 默认变量布局
+            const { labelCol, wrapperCol, span } = this.state;
             values.formItemLayout = {
                 labelCol: { span: labelCol },
                 wrapperCol: { span: wrapperCol },
-            }
+            };
+            values.span = span;
         }
         formOption.push(values);
         this.setState({
@@ -94,12 +93,26 @@ class CreateForm extends Component {
         const formOption = [...this.state.formOption];
         for (const item of formOption) {
             if (item.formItemLayoutText) {
-                item.span = value
+                item.span = value;
             }
         }
         this.setState({
             formOption,
-            span: value
+            span: value,
+        });
+    };
+
+    labelColChange = value => {
+        console.log(value);
+        const formOption = [...this.state.formOption];
+        for (const item of formOption) {
+            if (item.formItemLayoutText) {
+                item.formItemLayout.labelCol.span = value;
+            }
+        }
+        this.setState({
+            formOption,
+            labelCol: value,
         });
     }
 
@@ -112,7 +125,17 @@ class CreateForm extends Component {
     };
 
     render() {
-        const { formOption, visibleSetForm, setFormKey, width, type, name, variableType, defaultLayout, span } = this.state;
+        const {
+            formOption,
+            visibleSetForm,
+            setFormKey,
+            width,
+            type,
+            name,
+            variableType,
+            span,
+            labelCol,
+        } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -147,7 +170,7 @@ class CreateForm extends Component {
                         </Form.Item>
                         <Form.Item label="变量名">
                             <Input
-                                style={{width: 200}}
+                                style={{ width: 200 }}
                                 onChange={e => this.setState({ name: e.target.value })}
                                 value={name}
                             />
@@ -159,24 +182,20 @@ class CreateForm extends Component {
                                 value={variableType}
                             />
                         </Form.Item>
-                        <Form.Item label="默认布局">
-                            <Radio.Group
-                                options={defaultLayoutOptions}
-                                onChange={e => this.setState({ defaultLayout: e.target.value })}
-                                value={defaultLayout}
+                        <Form.Item label="默认span">
+                            <InputNumber
+                                style={{ width: 200 }}
+                                onChange={this.spanChange}
+                                value={span}
                             />
-                            (针对于选了formItemLayout:变量 生效)
                         </Form.Item>
-                        {
-                            defaultLayout &&
-                            <Form.Item label="span">
-                                <InputNumber
-                                    style={{width: 200}}
-                                    onChange={this.spanChange}
-                                    value={span}
-                                />
-                            </Form.Item>
-                        }
+                        <Form.Item label="默认labelCol">
+                            <InputNumber
+                                style={{ width: 200 }}
+                                onChange={this.labelColChange}
+                                value={labelCol}
+                            />
+                        </Form.Item>
                     </Form>
                 </div>
                 <div className={styles.formBox} style={{ width: `${width}px` }}>
@@ -186,7 +205,11 @@ class CreateForm extends Component {
                         wrappedComponentRef={el => (this.generateForm = el)}
                     />
                     {formOption.length > 0 && (
-                        <Button type="primary" onClick={this.handleSubmit} className={styles.testButton}>
+                        <Button
+                            type="primary"
+                            onClick={this.handleSubmit}
+                            className={styles.testButton}
+                        >
                             测试rules
                         </Button>
                     )}
