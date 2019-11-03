@@ -14,6 +14,11 @@ const variableTypeOptions = [
     { value: 'Function', label: 'Function' },
 ];
 
+const defaultLayoutOptions = [
+    { value: false, label: 'false' },
+    { value: true, label: 'true' },
+]
+
 class CreateForm extends Component {
     constructor(props) {
         super(props);
@@ -27,6 +32,7 @@ class CreateForm extends Component {
             variableType: 'Array', // 变量类型
             labelCol: 8,
             wrapperCol: 16,
+            defaultLayout: false
         };
     }
 
@@ -89,7 +95,7 @@ class CreateForm extends Component {
     };
 
     render() {
-        const { formOption, visibleSetForm, setFormKey, width, type, name, variableType } = this.state;
+        const { formOption, visibleSetForm, setFormKey, width, type, name, variableType, defaultLayout } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
             wrapperCol: { span: 14 },
@@ -134,6 +140,13 @@ class CreateForm extends Component {
                                 options={variableTypeOptions}
                                 onChange={e => this.setState({ variableType: e.target.value })}
                                 value={variableType}
+                            />
+                        </Form.Item>
+                        <Form.Item label="默认布局">
+                            <Radio.Group
+                                options={defaultLayoutOptions}
+                                onChange={e => this.setState({ defaultLayout: e.target.value })}
+                                value={defaultLayout}
                             />
                         </Form.Item>
                     </Form>
