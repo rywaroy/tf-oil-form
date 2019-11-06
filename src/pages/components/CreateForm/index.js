@@ -164,7 +164,7 @@ class CreateForm extends Component {
             s = `export const ${name} = ${s};`;
         }
         if (variableType === 'Function') {
-            s = `export function(_self) ${name} { return ${s}; }`;
+            s = `export function ${name}(_self) { return ${s}; }`;
         }
         this.setState({
             s,
