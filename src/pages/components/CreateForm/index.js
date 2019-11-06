@@ -21,7 +21,7 @@ class CreateForm extends Component {
             formOption: [],
             visibleSetForm: false,
             setFormKey: Math.random(),
-            width: 520, // 容器宽度
+            width: 1000, // 容器宽度
             type: 'filter', // 表单类型
             name: 'listFiltles', // 变量名
             variableType: 'Array', // 变量类型
@@ -167,80 +167,82 @@ class CreateForm extends Component {
                         添加
                     </Button>
                 </div>
-                <div>
-                    <Form {...formItemLayout}>
-                        <Form.Item label="表单类型">
-                            <Radio.Group
-                                options={typeOptions}
-                                onChange={this.typeChange}
-                                value={type}
-                            />
-                        </Form.Item>
-                        <Form.Item label="容器宽度">
-                            <InputNumber
-                                step={100}
-                                onChange={value => this.setState({ width: value })}
-                                value={width}
-                            />
-                        </Form.Item>
-                        <Form.Item label="变量名">
-                            <Input
-                                style={{ width: 200 }}
-                                onChange={e => this.setState({ name: e.target.value })}
-                                value={name}
-                            />
-                        </Form.Item>
-                        <Form.Item label="变量类型">
-                            <Radio.Group
-                                options={variableTypeOptions}
-                                onChange={e => this.setState({ variableType: e.target.value })}
-                                value={variableType}
-                            />
-                        </Form.Item>
-                        {defaultLayout && (
-                            <Form.Item label="默认span">
-                                <InputNumber
-                                    style={{ width: 200 }}
-                                    onChange={this.spanChange}
-                                    value={span}
+                <div className={styles.formWrap}>
+                    <div className={styles.formOption}>
+                        <Form {...formItemLayout}>
+                            <Form.Item label="表单类型">
+                                <Radio.Group
+                                    options={typeOptions}
+                                    onChange={this.typeChange}
+                                    value={type}
                                 />
                             </Form.Item>
-                        )}
-                        {defaultLayout && (
-                            <Form.Item label="默认labelCol">
+                            <Form.Item label="容器宽度">
                                 <InputNumber
-                                    style={{ width: 200 }}
-                                    onChange={this.labelColChange}
-                                    value={labelCol}
+                                    step={100}
+                                    onChange={value => this.setState({ width: value })}
+                                    value={width}
                                 />
                             </Form.Item>
-                        )}
-                        {defaultLayout && (
-                            <Form.Item label="默认wrapperCol">
-                                <InputNumber
+                            <Form.Item label="变量名">
+                                <Input
                                     style={{ width: 200 }}
-                                    onChange={this.wrapperColChange}
-                                    value={wrapperCol}
+                                    onChange={e => this.setState({ name: e.target.value })}
+                                    value={name}
                                 />
                             </Form.Item>
+                            <Form.Item label="变量类型">
+                                <Radio.Group
+                                    options={variableTypeOptions}
+                                    onChange={e => this.setState({ variableType: e.target.value })}
+                                    value={variableType}
+                                />
+                            </Form.Item>
+                            {defaultLayout && (
+                                <Form.Item label="默认span">
+                                    <InputNumber
+                                        style={{ width: 200 }}
+                                        onChange={this.spanChange}
+                                        value={span}
+                                    />
+                                </Form.Item>
+                            )}
+                            {defaultLayout && (
+                                <Form.Item label="默认labelCol">
+                                    <InputNumber
+                                        style={{ width: 200 }}
+                                        onChange={this.labelColChange}
+                                        value={labelCol}
+                                    />
+                                </Form.Item>
+                            )}
+                            {defaultLayout && (
+                                <Form.Item label="默认wrapperCol">
+                                    <InputNumber
+                                        style={{ width: 200 }}
+                                        onChange={this.wrapperColChange}
+                                        value={wrapperCol}
+                                    />
+                                </Form.Item>
+                            )}
+                        </Form>
+                    </div>
+                    <div className={styles.formBox} style={{ width: `${width}px` }}>
+                        <GenerateForm
+                            formSet={formOption}
+                            formType={type}
+                            wrappedComponentRef={el => (this.generateForm = el)}
+                        />
+                        {formOption.length > 0 && (
+                            <Button
+                                type="primary"
+                                onClick={this.handleSubmit}
+                                className={styles.testButton}
+                            >
+                                测试rules
+                            </Button>
                         )}
-                    </Form>
-                </div>
-                <div className={styles.formBox} style={{ width: `${width}px` }}>
-                    <GenerateForm
-                        formSet={formOption}
-                        formType={type}
-                        wrappedComponentRef={el => (this.generateForm = el)}
-                    />
-                    {formOption.length > 0 && (
-                        <Button
-                            type="primary"
-                            onClick={this.handleSubmit}
-                            className={styles.testButton}
-                        >
-                            测试rules
-                        </Button>
-                    )}
+                    </div>
                 </div>
                 <SetForm
                     visibleSetForm={visibleSetForm}
