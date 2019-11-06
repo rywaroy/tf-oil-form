@@ -145,7 +145,7 @@ class CreateForm extends Component {
      * 生成代码
      */
     create() {
-        const { formOption, name, variableType } = this.state;
+        const { formOption, name, variableType, labelCol, wrapperCol } = this.state;
         if (formOption.length === 0) {
             return;
         }
@@ -160,12 +160,19 @@ class CreateForm extends Component {
             return item;
         });
         let s = JSON.stringify(array);
+
         if (variableType === 'Array') {
             s = `export const ${name} = ${s};`;
         }
         if (variableType === 'Function') {
             s = `export function ${name}(_self) { return ${s}; }`;
         }
+        if (isVar) {
+            s = `const formItemLayout = {labelCol:{span:${labelCol}}, wrapperCol:{span:${wrapperCol}}}; ${s}`;
+        }
+        s = s.replace(/\"(formItemLayout)\"/g, (a, b) => {
+            return b;
+        });
         this.setState({
             s,
         });
