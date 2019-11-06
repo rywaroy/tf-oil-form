@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, Modal, InputNumber, Icon, Input, message, Form, Radio } from 'antd';
+import cloneDeep from 'loadsh/cloneDeep';
 import GenerateForm from '../GenerateForm';
 import SetForm from '../SetForm';
 import styles from './index.less';
@@ -13,6 +14,8 @@ const variableTypeOptions = [
     { value: 'Array', label: 'Array' },
     { value: 'Function', label: 'Function' },
 ];
+
+const { TextArea } = Input;
 
 class CreateForm extends Component {
     constructor(props) {
@@ -29,6 +32,7 @@ class CreateForm extends Component {
             wrapperCol: 16,
             span: 24,
             defaultLayout: false,
+            s: '',
         };
     }
 
@@ -137,6 +141,28 @@ class CreateForm extends Component {
         this.generateForm.verify();
     };
 
+    /**
+     * 生成代码
+     */
+    create() {
+        if (this.state.formOption.length === 0) {
+            return;
+        }
+        let isVar = false;
+        const options = cloneDeep(this.state.formOption);
+        const array = options.map(item => {
+            if (item.formItemLayoutText) {
+                item.formItemLayout = 'formItemLayout';
+                isVar = true;
+                delete item.formItemLayoutText;
+            }
+            return item;
+        });
+        this.setState({
+            s: JSON.stringify(array)
+        })
+    }
+
     render() {
         const {
             formOption,
@@ -150,6 +176,7 @@ class CreateForm extends Component {
             labelCol,
             wrapperCol,
             defaultLayout,
+            s,
         } = this.state;
         const formItemLayout = {
             labelCol: { span: 4 },
@@ -166,8 +193,15 @@ class CreateForm extends Component {
                     >
                         添加
                     </Button>
+                    <Button
+                        type="primary"
+                        onClick={this.create.bind(this)}
+                        style={{ marginRight: '10px' }}
+                    >
+                        生成代码
+                    </Button>
                 </div>
-                <div className={styles.formWrap}>
+                <div className={`${styles.formWrap} clearfix`}>
                     <div className={styles.formOption}>
                         <Form {...formItemLayout}>
                             <Form.Item label="表单类型">
@@ -244,6 +278,12 @@ class CreateForm extends Component {
                         )}
                     </div>
                 </div>
+                <TextArea
+                    id="textarea"
+                    value={s}
+                    placeholder="代码片段"
+                    autoSize={{ minRows: 3, maxRows: 6 }}
+                />
                 <SetForm
                     visibleSetForm={visibleSetForm}
                     key={setFormKey}
