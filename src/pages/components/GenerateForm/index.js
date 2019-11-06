@@ -144,7 +144,7 @@ class GenerateForm extends React.Component {
                                 colon = true, // ant design Form原生：是否显示label后边的冒号
                                 props, // 外部传入给组件的属性
                                 name, // ant design Form原生name属性
-                                span = formType === 'filter' ? 12 : 8, // 表单项的布局长度
+                                span = formType === 'filter' ? 8 : 12, // 表单项的布局长度
                                 colClass = '', /* 表单col的样式*/
                                 options = {}, // //ant design Form原生表单项options
                                 formItemLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } } // 表单项lable、表单组件的布局
