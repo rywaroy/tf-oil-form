@@ -143,6 +143,24 @@ class CreateForm extends Component {
     };
 
     /**
+     * 删除item
+     */
+    deleteItem = index => {
+        const formOption = [...this.state.formOption];
+        formOption.splice(index, 1);
+        let defaultLayout = false;
+        for (const item of formOption) {
+            if (item.formItemLayoutText) {
+                defaultLayout = true;
+            }
+        }
+        this.setState({
+            formOption,
+            defaultLayout
+        })
+    }
+
+    /**
      * 生成代码
      */
     create() {
@@ -292,6 +310,7 @@ class CreateForm extends Component {
                             formSet={formOption}
                             formType={type}
                             wrappedComponentRef={el => (this.generateForm = el)}
+                            deleteItem={this.deleteItem.bind(this)}
                         />
                         {formOption.length > 0 && (
                             <Button
