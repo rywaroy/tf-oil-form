@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Button, Modal, InputNumber, Icon, Input, message, Form, Radio } from 'antd';
+import { Button, InputNumber, Icon, Input, message, Form, Radio } from 'antd';
 import cloneDeep from 'loadsh/cloneDeep';
+import Clipboard from 'clipboard';
 import GenerateForm from '../GenerateForm';
 import SetForm from '../SetForm';
 import styles from './index.less';
@@ -178,6 +179,16 @@ class CreateForm extends Component {
         });
     }
 
+    componentDidMount() {
+        const clipboard = new Clipboard('.btn');
+        clipboard.on('success', () => {
+            message.success('复制成功');
+        });
+        clipboard.on('error', () => {
+            message.error('复制失败');
+        });
+    }
+
     render() {
         const {
             formOption,
@@ -299,6 +310,14 @@ class CreateForm extends Component {
                     placeholder="代码片段"
                     autoSize={{ minRows: 3, maxRows: 6 }}
                 />
+                <Button
+                    type="primary"
+                    className="btn"
+                    data-clipboard-target="#textarea"
+                    style={{ marginTop: '10px' }}
+                >
+                    复制
+                </Button>
                 <SetForm
                     visibleSetForm={visibleSetForm}
                     key={setFormKey}

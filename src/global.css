@@ -18,3 +18,9 @@ body {
   width: 100px;
   margin-right: 20px;
 }
+
+.opt-link {
+  color: #1890ff;
+  cursor: pointer;
+  margin-right: 10px;
+}
