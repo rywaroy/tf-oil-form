@@ -198,7 +198,7 @@ class CreateForm extends Component {
     }
 
     componentDidMount() {
-        const clipboard = new Clipboard('.btn');
+        const clipboard = new Clipboard('.createFormButton');
         clipboard.on('success', () => {
             message.success('复制成功');
         });
@@ -324,15 +324,15 @@ class CreateForm extends Component {
                     </div>
                 </div>
                 <TextArea
-                    id="textarea"
+                    id="createFormTextarea"
                     value={s}
                     placeholder="代码片段"
                     autoSize={{ minRows: 3, maxRows: 6 }}
                 />
                 <Button
                     type="primary"
-                    className="btn"
-                    data-clipboard-target="#textarea"
+                    className="createFormButton"
+                    data-clipboard-target="#createFormTextarea"
                     style={{ marginTop: '10px' }}
                 >
                     复制

@@ -292,7 +292,7 @@ class CreateTable extends Component {
     }
 
     componentDidMount() {
-        const clipboard = new Clipboard('.btn');
+        const clipboard = new Clipboard('.createTableButton');
         clipboard.on('success', () => {
             message.success('复制成功');
         });
@@ -336,15 +336,15 @@ class CreateTable extends Component {
                 </Button>
                 <Table columns={columns} dataSource={dataSource} rowKey={r => r.id}></Table>
                 <TextArea
-                    id="textarea"
+                    id="createTableTextarea"
                     value={s}
                     placeholder="代码片段"
                     autoSize={{ minRows: 3, maxRows: 6 }}
                 />
                 <Button
                     type="primary"
-                    className="btn"
-                    data-clipboard-target="#textarea"
+                    className="createTableButton"
+                    data-clipboard-target="#createTableTextarea"
                     style={{ marginTop: '10px' }}
                 >
                     复制
