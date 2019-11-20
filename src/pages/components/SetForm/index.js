@@ -66,7 +66,7 @@ class SetForm extends Component {
                     name: label
                 };
                 if (initialValue) obj.initialValue = '';
-                if (colClass) obj.colClass = '';
+                if (colClass) obj.colClass = colClass;
                 if (!colon) obj.colon = false;
                 if (addonAfter) obj.addonAfter = '';
                 if (span) obj.span = span;
